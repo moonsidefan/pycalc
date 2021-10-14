@@ -18,6 +18,8 @@ def MainProgram():
 		operator = input("Your choice: ")
 		if CheckSyntax(operator):
 			Calculate(num1, num2, operator)
+		else:
+			MainProgram()
 
 
 def CheckNumbers(num1, num2):
