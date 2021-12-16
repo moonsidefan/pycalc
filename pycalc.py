@@ -2,77 +2,68 @@
 
 import sys
 
-count = len(sys.argv)
-args = sys.argv
-num1 = 0
-num2 = 0
-limit = 2**64
-operator = ""
-res = 0
+args = sys.argv[1:]
+count = len(args)
 
-def MainProgram():
-	num1 = int(input("Value for number one: "))
-	num2 = int(input("Value for number two: "))
-	if CheckNumbers(num1, num2):
-		print("For addition type '+', for subtraction type '-', for multiplication type '*', for devision type '/'. Type 'e' to edit numbers")
-		operator = input("Your choice: ")
-		if CheckSyntax(operator):
-			Calculate(num1, num2, operator)
+number = 0
+operator = "+"
+operators = ["+", "-", "*", "/"]
+
+# Reading arguments
+def checkSyntax(chars):
+	for i in range(len(chars)):
+		if not(i % 2):
+			checkNumber(chars[i])
 		else:
-			MainProgram()
+			checkOperator(chars[i])
 
-
-def CheckNumbers(num1, num2):
-	if abs(num1) > limit or abs(num2) > limit:
-		print("Numbers exceed the limit (2**64)")
-		return False
+# Check for number syntax
+def checkNumber(num):
+	if num.isnumeric():
+		doMath(int(num))
 	else:
-		return True
+		print("Wrong Syntax. Type 'h' for help.")
+		quit()
 
-def CheckSyntax(operator):
-	if operator == "e":
-		MainProgram()
-	elif operator not in ["+", "-", "*", "/"]:
-		print("Operators must be ")
-		return False
+# Check for operator syntax
+def checkOperator(oper):
+	global operator
+	if oper in operators:
+		operator = oper
 	else:
-		return True
+		print("Wrong Syntax. Type 'h' for help.")
+		quit()
 
-def Calculate(num1, num2, operator):
-	if operator == "/" and num2 == 0:
-		print("Deviding by zero impossible")
+# Applying logic to the current result
+def doMath(num):
+	global number
+	if operator == "/" and num == 0:
+		print("Deviding by zero impossible, but JavaScript says it is equal to infinity.")
 		quit()
 	elif operator == "+":
-		res = num1 + num2
-		print("The result is: " + str(res))
-		quit()
+		number += num
 	elif operator == "-":
-		res = num1 - num2
-		print("The result is: " + str(res))
-		quit()
+		number -= num
 	elif operator == "*":
-		res = num1 * num2
-		print("The result is: " + str(res))
-		quit()
+		number *= num
 	elif operator == "/":
-		res = num1 / num2
-		print("The result is: " + str(res))
-		quit()
+		number /= num
 	else:
 		input("Unknown error. Press key to exit...")
 		quit()
-
-if count == 1:
-	print("Type -h for help")
-	quit()
-elif count > 2:
-	print("Too many arguments. Type -h for help")
+	
+# Start
+if count == 1 and args[0] == "-h" or count == 1 and args[0] == "-help":
+	print("The correct syntax is: number(0,1,2,3,4,5,6,7,8,9) operator(+,-,*,/) number(0,1,2,3,4,5,6,7,8,9) (and so on...)\n")
+	print("Example: python pycalc.py 4000 + 6000\n")
+	print("The result is: 10000\n")
+	print("Note, that 'Punkt vor Strich' will be ignored since I am to lazy for that.\n")
+elif count < 3:
+	print("Type -h or -help for help.")
 	quit()
 else:
-	if args[1] == "-h":
-		print("To start the program type -s")
-		quit()
-	elif args[1] == "-s":
-		MainProgram()
+	checkSyntax(args)
+	print("The result is: " + str(number))
+	quit()
 	
 			

@@ -1,4 +1,7 @@
 # pycalc
-A simple Calculator made in Python
+### Update 2021-12-16, v0.2.0:
+A calculator that is much better than the one before. 
 
-A calculator that adds, subtracts, multiplies or devides numbers in the range of +- 2^64.
+Usage: python pycalc.py number operator number operator (and so on...)
+
+Type -h or -help for further help
